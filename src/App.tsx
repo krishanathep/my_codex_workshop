@@ -13,27 +13,29 @@ import {
 } from '@mui/material';
 import AdminDashboard from './pages/AdminDashboard';
 import UserDashboard from './pages/UserDashboard';
+import MyApplicationsPage from './pages/MyApplicationsPage';
+import DocumentCenterPage from './pages/DocumentCenterPage';
+import AdminQueuePage from './pages/AdminQueuePage';
+import AdminAnalyticsPage from './pages/AdminAnalyticsPage';
 import { VisaRequestsProvider } from './context/VisaRequestContext';
+
+const routes = {
+  admin: '/admin',
+  user: '/user',
+  applications: '/applications',
+  documents: '/documents',
+  adminQueue: '/admin/queue',
+  adminAnalytics: '/admin/analytics',
+} as const;
 
 const theme = createTheme({
   palette: {
-    primary: {
-      main: '#184e77',
-    },
-    secondary: {
-      main: '#3a7ca5',
-    },
-    background: {
-      default: '#f4f7fb',
-      paper: '#ffffff',
-    },
+    primary: { main: '#184e77' },
+    secondary: { main: '#3a7ca5' },
+    background: { default: '#f4f7fb', paper: '#ffffff' },
   },
-  shape: {
-    borderRadius: 14,
-  },
-  typography: {
-    fontFamily: '"Inter", "Segoe UI", Arial, sans-serif',
-  },
+  shape: { borderRadius: 14 },
+  typography: { fontFamily: '"Inter", "Segoe UI", Arial, sans-serif' },
 });
 
 function Navigation() {
@@ -44,9 +46,7 @@ function Navigation() {
     bgcolor: location.pathname === path ? 'rgba(24, 78, 119, 0.08)' : 'transparent',
     fontWeight: 700,
     textTransform: 'none' as const,
-    '&:hover': {
-      bgcolor: 'rgba(24, 78, 119, 0.12)',
-    },
+    '&:hover': { bgcolor: 'rgba(24, 78, 119, 0.12)' },
   });
 
   return (
@@ -56,10 +56,10 @@ function Navigation() {
           LTR Visa Request Dashboard
         </Typography>
         <Stack direction="row" spacing={1}>
-          <Button component={NavLink} to="/admin" sx={navButtonSx('/admin')}>
+          <Button component={NavLink} to={routes.admin} sx={navButtonSx(routes.admin)}>
             Admin Dashboard
           </Button>
-          <Button component={NavLink} to="/user" sx={navButtonSx('/user')}>
+          <Button component={NavLink} to={routes.user} sx={navButtonSx(routes.user)}>
             User Dashboard
           </Button>
         </Stack>
@@ -85,9 +85,13 @@ export default function App() {
           <Navigation />
           <Container maxWidth="xl" sx={{ py: { xs: 3, md: 4 } }}>
             <Routes>
-              <Route path="/" element={<Navigate to="/admin" replace />} />
-              <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="/user" element={<UserDashboard />} />
+              <Route path="/" element={<Navigate to={routes.admin} replace />} />
+              <Route path={routes.admin} element={<AdminDashboard />} />
+              <Route path={routes.user} element={<UserDashboard />} />
+              <Route path={routes.applications} element={<MyApplicationsPage />} />
+              <Route path={routes.documents} element={<DocumentCenterPage />} />
+              <Route path={routes.adminQueue} element={<AdminQueuePage />} />
+              <Route path={routes.adminAnalytics} element={<AdminAnalyticsPage />} />
             </Routes>
           </Container>
         </HashRouter>
